@@ -1,19 +1,207 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Gourav Website</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Sweetheart 💖</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial, sans-serif;
+}
+
+body{
+height:100vh;
+overflow:hidden;
+background:black;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+.container{
+z-index:2;
+padding:20px;
+}
+
+h1{
+font-size:3rem;
+color:#ff4da6;
+text-shadow:0 0 10px #ff4da6;
+animation:glow 2s infinite alternate;
+}
+
+p{
+margin-top:15px;
+font-size:1.2rem;
+color:#ddd;
+}
+
+button{
+margin-top:20px;
+padding:12px 25px;
+border:none;
+border-radius:30px;
+background:#ff4da6;
+color:white;
+font-size:1rem;
+cursor:pointer;
+transition:0.3s;
+box-shadow:0 0 15px #ff4da6;
+}
+
+button:hover{
+transform:scale(1.1);
+background:#ff1a8c;
+}
+
+img{
+margin-top:20px;
+width:220px;
+height:220px;
+object-fit:cover;
+border-radius:20px;
+border:3px solid #ff4da6;
+box-shadow:0 0 20px #ff4da6;
+}
+
+.typing{
+font-size:1.1rem;
+margin-top:10px;
+color:#00ffcc;
+white-space:nowrap;
+overflow:hidden;
+border-right:2px solid #00ffcc;
+width:0;
+animation:typing 5s steps(40,end) forwards,
+blink .8s infinite;
+}
+
+@keyframes typing{
+from{width:0}
+to{width:100%}
+}
+
+@keyframes blink{
+50%{border-color:transparent}
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px #ff4da6;}
+to{text-shadow:0 0 25px #ff4da6;}
+}
+
+.hearts{
+position:absolute;
+width:100%;
+height:100%;
+top:0;
+left:0;
+overflow:hidden;
+z-index:1;
+}
+
+.heart{
+position:absolute;
+bottom:-20px;
+color:#ff4da6;
+animation:float 6s linear infinite;
+font-size:20px;
+}
+
+@keyframes float{
+0%{
+transform:translateY(0) rotate(0deg);
+opacity:1;
+}
+100%{
+transform:translateY(-100vh) rotate(360deg);
+opacity:0;
+}
+}
+
+.music{
+position:absolute;
+bottom:15px;
+right:15px;
+font-size:12px;
+color:#aaa;
+}
+</style>
 </head>
 
-<body style="background:black;color:white;text-align:center;font-family:sans-serif;">
+<body>
 
-<h1>Welcome To My Website 🚀</h1>
+<div class="hearts"></div>
 
-<p>This website is created by Gourav</p>
+<div class="container">
+
+<h1>Hey Sweetheart 💖</h1>
+
+<div class="typing">
+Loading cutest girl in the universe...
+</div>
+
 <p>
-"Some links are just websites...  
-but this one leads to my favourite person 💫"
-<p>
+Thank you for opening my link my sweet heart 💌
+</p>
 
+<button onclick="showMessage()">
+Press if you miss me 🥺
+</button>
+
+<br>
+
+<img src="YOUR_IMAGE_LINK_HERE" id="photo">
+
+<br>
+
+<input type="file" accept="image/*" onchange="loadFile(event)" style="margin-top:15px;color:white;">
+
+<p id="extraText"></p>
+
+</div>
+
+<div class="music">
+🎵 Add your favorite romantic song
+</div>
+
+<audio autoplay loop>
+<source src="YOUR_MUSIC_LINK_HERE" type="audio/mp3">
+</audio>
+
+<script>
+function showMessage(){
+document.getElementById("extraText").innerHTML =
+"I knew it 😎❤️ <br><br> You are my favorite notification ✨";
+}
+
+function loadFile(event){
+document.getElementById('photo').src =
+URL.createObjectURL(event.target.files[0]);
+}
+
+function createHeart(){
+const heart = document.createElement('div');
+heart.classList.add('heart');
+heart.innerHTML = '💖';
+heart.style.left = Math.random()*100 + 'vw';
+heart.style.fontSize = Math.random()*20 + 10 + 'px';
+heart.style.animationDuration = Math.random()*3 + 3 + 's';
+document.querySelector('.hearts').appendChild(heart);
+
+setTimeout(()=>{
+heart.remove();
+},6000);
+}
+
+setInterval(createHeart,300);
+</script>
 
 </body>
 </html>
