@@ -1,387 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Only For You ❤️</title>
+<div class="wip-box">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <h2 class="welcome">WELCOME TO MY WEB</h2>
+
+  <h1>🚧 WORK IN PROGRESS 🚧</h1>
+
+  <p class="text">
+    Creating something special for my favorite person ❤️
+  </p>
+
+  <p class="creator">
+    This web is created by <span>Gourav</span>
+  </p>
+
+</div>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
-scroll-behavior:smooth;
-}
-
 body{
-background:#050505;
-color:white;
-overflow-x:hidden;
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:black;
+  font-family:Arial, sans-serif;
+  overflow:hidden;
 }
 
-/* GLOW BACKGROUND */
-
-.bg{
-position:fixed;
-width:100%;
-height:100%;
-background:
-radial-gradient(circle at top left,#ff0080 0%,transparent 25%),
-radial-gradient(circle at bottom right,#6a00ff 0%,transparent 25%),
-black;
-z-index:-2;
+.wip-box{
+  text-align:center;
+  padding:40px;
+  border:2px solid #00ffcc;
+  border-radius:25px;
+  box-shadow:0 0 20px #00ffcc;
+  animation:glow 2s infinite alternate;
+  background:rgba(0,0,0,0.7);
 }
 
-/* STARS */
-
-.stars{
-position:fixed;
-width:100%;
-height:100%;
-z-index:-1;
-overflow:hidden;
+.welcome{
+  color:white;
+  font-size:18px;
+  letter-spacing:4px;
+  margin-bottom:20px;
 }
 
-.star{
-position:absolute;
-width:2px;
-height:2px;
-background:white;
-border-radius:50%;
-animation:twinkle 3s infinite alternate;
+h1{
+  color:#00ffcc;
+  font-size:42px;
+  letter-spacing:3px;
+  margin:10px 0;
 }
 
-@keyframes twinkle{
-from{
-opacity:0.2;
-transform:scale(1);
-}
-to{
-opacity:1;
-transform:scale(2);
-}
+.text{
+  color:white;
+  font-size:18px;
+  margin-top:15px;
 }
 
-/* HERO */
-
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:20px;
+.creator{
+  color:#888;
+  margin-top:25px;
+  font-size:15px;
 }
 
-.hero h1{
-font-size:4rem;
-font-weight:700;
-background:linear-gradient(90deg,#ff4da6,#9b5cff,#00e5ff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-animation:float 3s ease-in-out infinite;
+.creator span{
+  color:#00ffcc;
+  font-weight:bold;
 }
 
-.hero p{
-margin-top:20px;
-font-size:1.2rem;
-max-width:700px;
-line-height:1.8;
-color:#d8d8d8;
+@keyframes glow{
+  from{
+    box-shadow:0 0 10px #00ffcc;
+  }
+  to{
+    box-shadow:0 0 35px #00ffcc;
+  }
 }
-
-@keyframes float{
-0%{
-transform:translateY(0px);
-}
-50%{
-transform:translateY(-12px);
-}
-100%{
-transform:translateY(0px);
-}
-}
-
-.scroll{
-margin-top:40px;
-font-size:14px;
-color:#aaa;
-animation:updown 1.5s infinite;
-}
-
-@keyframes updown{
-0%{transform:translateY(0);}
-50%{transform:translateY(10px);}
-100%{transform:translateY(0);}
-}
-
-/* SECTIONS */
-
-.section{
-min-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-padding:50px 25px;
-}
-
-.card{
-width:100%;
-max-width:800px;
-padding:40px;
-border-radius:30px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,255,255,0.1);
-box-shadow:0 0 40px rgba(255,0,128,0.2);
-transition:0.4s;
-}
-
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 60px rgba(255,0,128,0.4);
-}
-
-.card h2{
-font-size:2.5rem;
-margin-bottom:20px;
-color:#ff4da6;
-}
-
-.card p{
-font-size:1.1rem;
-line-height:2;
-color:#ddd;
-}
-
-/* BUTTON */
-
-.btn{
-display:inline-block;
-margin-top:30px;
-padding:14px 30px;
-border-radius:40px;
-background:linear-gradient(90deg,#ff4da6,#7d5cff);
-color:white;
-text-decoration:none;
-font-weight:600;
-transition:0.3s;
-box-shadow:0 0 25px rgba(255,0,128,0.5);
-}
-
-.btn:hover{
-transform:scale(1.08);
-}
-
-/* HEART RAIN */
-
-.heart{
-position:fixed;
-top:-10px;
-font-size:20px;
-animation:fall linear forwards;
-z-index:999;
-}
-
-@keyframes fall{
-to{
-transform:translateY(110vh);
-opacity:0;
-}
-}
-
-/* FINAL */
-
-.final{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:20px;
-}
-
-.final h1{
-font-size:3rem;
-line-height:1.7;
-background:linear-gradient(90deg,#ff4da6,#ffffff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-}
-
 </style>
-</head>
-
-<body>
-
-<div class="bg"></div>
-<div class="stars"></div>
-
-<section class="hero">
-  <h1>Welcome To My Website 🚀</h1>
-
-<p>This website is created by Gourav</p>
-  
-<h2>HEY SWEET motttuuuuuu ❤️</h2>
-
-<p>
-Out of billions of websites...
-you still opened mine 🥺✨
-<br><br>
-Maybe this page is not perfect...
-but it was made thinking about you 💖
-</p>
-
-<div class="scroll">
-⬇ Scroll Slowly ⬇
-</div>
-
-</section>
-
-<section class="section">
-
-<div class="card">
-
-<h2>You Know What?</h2>
-
-<p>
-Every notification from you feels special.  
-Every message makes my mood better.  
-And honestly...  
-you became one of my favorite parts of the day ✨
-</p>
-
-<a href="#" class="btn" onclick="showMsg()">
-Click Me 🥺
-</a>
-
-</div>
-
-</section>
-
-<section class="section">
-
-<div class="card">
-
-<h2>System Analysis 💻</h2>
-
-<p id="typing"></p>
-
-</div>
-
-</section>
-
-<section class="section">
-
-<div class="card">
-
-<h2>Official Report 📄</h2>
-
-<p>
-✔ Cute level: Infinite  
-<br>
-✔ Smile quality: Dangerous  
-<br>
-✔ Overthinking ability: High  
-<br>
-✔ My favorite person: Confirmed 💖
-</p>
-
-</div>
-
-</section>
-
-<section class="final">
-
-<h1>
-Thank You For Being Here 💖
-<br><br>
-You really make things feel different ✨
-  yaad h na kl ldai bhi krni h mottuuuuuu
-</h1>
-
-</section>
-
-<script>
-
-/* STARS */
-
-for(let i=0;i<120;i++){
-
-let star=document.createElement("div");
-star.classList.add("star");
-
-star.style.top=Math.random()*100+"%";
-star.style.left=Math.random()*100+"%";
-
-star.style.animationDuration=
-(Math.random()*3+2)+"s";
-
-document.querySelector(".stars").appendChild(star);
-
-}
-
-/* HEARTS */
-
-function createHeart(){
-
-let heart=document.createElement("div");
-
-heart.classList.add("heart");
-heart.innerHTML="💖";
-
-heart.style.left=Math.random()*100+"vw";
-heart.style.animationDuration=
-(Math.random()*3+3)+"s";
-
-document.body.appendChild(heart);
-
-setTimeout(()=>{
-heart.remove();
-},6000);
-
-}
-
-setInterval(createHeart,400);
-
-/* BUTTON */
-
-function showMsg(){
-
-alert("I knew you would click this 😎❤️");
-
-}
-
-/* TYPING EFFECT */
-
-const text =
-"Scanning feelings... 💻\n\nResult Found:\n\nYou are genuinely special ✨";
-
-let i=0;
-
-function type(){
-
-if(i<text.length){
-
-document.getElementById("typing").innerHTML +=
-text.charAt(i);
-
-i++;
-
-setTimeout(type,50);
-
-}
-
-}
-
-type();
-
-</script>
-
-</body>
-</html>
