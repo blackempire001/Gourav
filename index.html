@@ -3,82 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Sweetheart 💖</title>
+<title>Accessing Her Heart 💖</title>
 
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial, sans-serif;
+font-family:Consolas, monospace;
 }
 
 body{
-height:100vh;
-overflow:hidden;
 background:black;
-color:white;
+overflow:hidden;
+height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-text-align:center;
+color:white;
 }
 
-.container{
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:0;
+}
+
+.main{
+position:relative;
 z-index:2;
-padding:20px;
+text-align:center;
+padding:30px;
+width:90%;
+max-width:500px;
+backdrop-filter:blur(8px);
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+border-radius:25px;
+box-shadow:0 0 30px rgba(255,0,128,0.4);
+animation:fade 2s ease;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 h1{
-font-size:3rem;
+font-size:2.5rem;
 color:#ff4da6;
-text-shadow:0 0 10px #ff4da6;
-animation:glow 2s infinite alternate;
-}
-
-p{
-margin-top:15px;
-font-size:1.2rem;
-color:#ddd;
-}
-
-button{
-margin-top:20px;
-padding:12px 25px;
-border:none;
-border-radius:30px;
-background:#ff4da6;
-color:white;
-font-size:1rem;
-cursor:pointer;
-transition:0.3s;
-box-shadow:0 0 15px #ff4da6;
-}
-
-button:hover{
-transform:scale(1.1);
-background:#ff1a8c;
-}
-
-img{
-margin-top:20px;
-width:220px;
-height:220px;
-object-fit:cover;
-border-radius:20px;
-border:3px solid #ff4da6;
-box-shadow:0 0 20px #ff4da6;
+text-shadow:0 0 20px #ff4da6;
+margin-bottom:10px;
 }
 
 .typing{
-font-size:1.1rem;
-margin-top:10px;
 color:#00ffcc;
+font-size:1rem;
 white-space:nowrap;
 overflow:hidden;
 border-right:2px solid #00ffcc;
 width:0;
-animation:typing 5s steps(40,end) forwards,
+margin:auto;
+animation:typing 4s steps(35,end) forwards,
 blink .8s infinite;
 }
 
@@ -91,116 +84,199 @@ to{width:100%}
 50%{border-color:transparent}
 }
 
-@keyframes glow{
-from{text-shadow:0 0 10px #ff4da6;}
-to{text-shadow:0 0 25px #ff4da6;}
+p{
+margin-top:20px;
+font-size:1rem;
+color:#ddd;
+line-height:1.6;
 }
 
-.hearts{
-position:absolute;
-width:100%;
-height:100%;
-top:0;
-left:0;
-overflow:hidden;
-z-index:1;
+img{
+margin-top:20px;
+width:220px;
+height:220px;
+object-fit:cover;
+border-radius:20px;
+border:3px solid #ff4da6;
+box-shadow:0 0 25px #ff4da6;
+transition:.4s;
 }
 
-.heart{
-position:absolute;
-bottom:-20px;
-color:#ff4da6;
-animation:float 6s linear infinite;
-font-size:20px;
+img:hover{
+transform:scale(1.05);
 }
 
-@keyframes float{
-0%{
-transform:translateY(0) rotate(0deg);
-opacity:1;
-}
-100%{
-transform:translateY(-100vh) rotate(360deg);
-opacity:0;
-}
+.buttons{
+margin-top:25px;
+display:flex;
+justify-content:center;
+gap:15px;
+flex-wrap:wrap;
 }
 
-.music{
-position:absolute;
-bottom:15px;
-right:15px;
-font-size:12px;
-color:#aaa;
+button{
+padding:12px 22px;
+border:none;
+border-radius:30px;
+background:#ff4da6;
+color:white;
+cursor:pointer;
+font-size:1rem;
+transition:.3s;
+box-shadow:0 0 15px #ff4da6;
 }
+
+button:hover{
+transform:scale(1.1);
+background:#ff1a8c;
+}
+
+#message{
+margin-top:20px;
+font-size:1.1rem;
+color:#00ffcc;
+min-height:40px;
+}
+
+input{
+margin-top:15px;
+color:white;
+}
+
+.counter{
+margin-top:15px;
+color:#ff99cc;
+font-size:0.95rem;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="hearts"></div>
+<canvas id="matrix"></canvas>
 
-<div class="container">
+<div class="main">
 
-<h1>Hey Sweetheart 💖</h1>
+<h1>HEY CUTIE 💖</h1>
 
 <div class="typing">
-Loading cutest girl in the universe...
+Access granted to the cutest girl alive...
 </div>
 
 <p>
-Thank you for opening my link my sweet heart 💌
+Out of billions of websites...  
+you still opened mine 🥺💌
 </p>
-
-<button onclick="showMessage()">
-Press if you miss me 🥺
-</button>
-
-<br>
 
 <img src="YOUR_IMAGE_LINK_HERE" id="photo">
 
 <br>
 
-<input type="file" accept="image/*" onchange="loadFile(event)" style="margin-top:15px;color:white;">
+<input type="file" accept="image/*" onchange="loadFile(event)">
 
-<p id="extraText"></p>
+<div class="counter">
+✨ You became my happiness many days ago ✨
+</div>
+
+<div class="buttons">
+
+<button onclick="loveMsg()">
+Do you miss me? 🥺
+</button>
+
+<button onclick="compliment()">
+Random Compliment ✨
+</button>
+
+<button onclick="hack()">
+Hack My Heart 💻
+</button>
 
 </div>
 
-<div class="music">
-🎵 Add your favorite romantic song
-</div>
+<div id="message"></div>
 
 <audio autoplay loop>
 <source src="YOUR_MUSIC_LINK_HERE" type="audio/mp3">
 </audio>
 
-<script>
-function showMessage(){
-document.getElementById("extraText").innerHTML =
-"I knew it 😎❤️ <br><br> You are my favorite notification ✨";
-}
+</div>
 
+<script>
 function loadFile(event){
 document.getElementById('photo').src =
 URL.createObjectURL(event.target.files[0]);
 }
 
-function createHeart(){
-const heart = document.createElement('div');
-heart.classList.add('heart');
-heart.innerHTML = '💖';
-heart.style.left = Math.random()*100 + 'vw';
-heart.style.fontSize = Math.random()*20 + 10 + 'px';
-heart.style.animationDuration = Math.random()*3 + 3 + 's';
-document.querySelector('.hearts').appendChild(heart);
-
-setTimeout(()=>{
-heart.remove();
-},6000);
+function loveMsg(){
+document.getElementById("message").innerHTML =
+"I knew it 😎❤️";
 }
 
-setInterval(createHeart,300);
+function compliment(){
+
+const lines = [
+"You're prettier than my sleep 😭💖",
+"Your smile > entire internet ✨",
+"You are my favorite notification 💌",
+"Even stars get jealous of you 🌙",
+"You make my bad days better 💖"
+];
+
+document.getElementById("message").innerHTML =
+lines[Math.floor(Math.random()*lines.length)];
+}
+
+function hack(){
+document.getElementById("message").innerHTML =
+"❤️ Successfully hacked your heart ❤️";
+}
+
+/* MATRIX EFFECT */
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+const letters =
+"01LOVEYOU💖";
+
+const fontSize = 14;
+const columns = canvas.width/fontSize;
+
+const drops = [];
+
+for(let x=0;x<columns;x++)
+drops[x]=1;
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#ff4da6";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+const text =
+letters[Math.floor(Math.random()*letters.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height &&
+Math.random()>0.975)
+drops[i]=0;
+
+drops[i]++;
+}
+}
+
+setInterval(draw,33);
+
 </script>
 
 </body>
