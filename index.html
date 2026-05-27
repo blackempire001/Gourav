@@ -1,135 +1,235 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>My Music Site</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Empire Music</title>
 
 <style>
+
 body{
+    margin:0;
     background:#121212;
     color:white;
     font-family:Arial;
-    margin:0;
 }
 
 /* HEADER */
+
 header{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    padding:10px 15px;
-    background:#000;
+    align-items:center;
+    padding:15px;
+    background:black;
+    position:sticky;
+    top:0;
 }
 
-header img{
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.logo img{
+    width:40px;
     height:40px;
+    border-radius:50%;
+}
+
+.logo h2{
+    margin:0;
 }
 
 /* SEARCH */
+
 .search-box{
     width:90%;
-    padding:10px;
-    margin:10px;
-    border-radius:10px;
+    margin:15px auto;
+    display:block;
+    padding:12px;
     border:none;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
 }
 
 /* SONG GRID */
+
 .song-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    padding:10px;
+    gap:12px;
+    padding:12px;
 }
 
 .card{
     background:#1e1e1e;
+    border-radius:15px;
     padding:10px;
-    border-radius:10px;
     text-align:center;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.03);
 }
 
 .card img{
     width:100%;
-    border-radius:10px;
+    border-radius:12px;
 }
 
-h3{
-    padding-left:10px;
+.song-name{
+    margin-top:8px;
+    font-weight:bold;
 }
+
+.artist{
+    color:#aaa;
+    font-size:14px;
+}
+
+audio{
+    width:100%;
+    margin-top:8px;
+}
+
+.heading{
+    padding-left:12px;
+}
+
 </style>
-
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
-    <h2>🎵 black empire Music</h2>
-    <img src="YOUR_LOGO_URL_HERE" alt="logo">
+    <div class="logo">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Spotify_icon.svg">
+        <h2>Empire Music</h2>
+    </div>
 </header>
 
-<!-- SEARCH -->
-<input class="search-box" id="search" placeholder="Search songs..." onkeyup="searchSongs()">
+<input 
+type="text" 
+class="search-box" 
+id="search"
+placeholder="Search any song..."
+oninput="searchSongs()"
+>
 
-<h3>🔥 Trending Songs</h3>
+<h3 class="heading">🔥 Trending Songs</h3>
+
 <div class="song-grid" id="songList"></div>
 
 <script>
 
-let allSongs = [];
+let trendingSongs = [];
 
-// 🔥 Load songs automatically (Spotify style home)
-async function loadSongs(){
-    let res = await fetch("https://itunes.apple.com/search?term=india&entity=song&limit=25");
-    let data = await res.json();
+// LOAD TRENDING SONGS
+async function loadTrending(){
 
-    allSongs = data.results;
-    showSongs(allSongs);
+    try{
+
+        let response = await fetch(
+        "https://itunes.apple.com/search?term=punjabi&entity=song&limit=20"
+        );
+
+        let data = await response.json();
+
+        trendingSongs = data.results;
+
+        showSongs(trendingSongs);
+
+    }catch(error){
+        console.log(error);
+    }
+
 }
 
-// 🎵 Show songs
+// SHOW SONGS
 function showSongs(songs){
-    let box = document.getElementById("songList");
-    box.innerHTML = "";
 
-    songs.forEach(song=>{
-        box.innerHTML += `
-        <div class="card">
-            <img src="${song.artworkUrl100}">
-            <p>${song.trackName}</p>
-            <small>${song.artistName}</small>
-            <audio controls src="${song.previewUrl}"></audio>
-        </div>
+    let songList = document.getElementById("songList");
+
+    songList.innerHTML = "";
+
+    if(songs.length === 0){
+
+        songList.innerHTML = `
+        <h2 style="padding:20px;">
+        No songs found 😢
+        </h2>
         `;
-    });
-}
 
-// 🔍 Search songs
-function searchSongs(){
-    let val = document.getElementById("search").value.toLowerCase();
-
-    // 🔍 REAL SEARCH FROM INTERNET
-async function searchSongs(){
-
-    let val = document.getElementById("search").value;
-
-    // agar empty ho to trending songs dikhao
-    if(val.trim() === ""){
-        showSongs(allSongs);
         return;
     }
 
-    let res = await fetch(`https://itunes.apple.com/search?term=${val}&entity=song&limit=20`);
+    songs.forEach(song => {
 
-    let data = await res.json();
+        songList.innerHTML += `
 
-    showSongs(data.results);
+        <div class="card">
+
+            <img src="${song.artworkUrl100}" />
+
+            <div class="song-name">
+                ${song.trackName}
+            </div>
+
+            <div class="artist">
+                ${song.artistName}
+            </div>
+
+            <audio controls>
+                <source src="${song.previewUrl}">
+            </audio>
+
+        </div>
+
+        `;
+
+    });
+
 }
 
-    showSongs(filtered);
+// SEARCH SONGS FROM INTERNET
+async function searchSongs(){
+
+    let query = document
+    .getElementById("search")
+    .value
+    .trim();
+
+    // EMPTY SEARCH = TRENDING
+    if(query === ""){
+
+        showSongs(trendingSongs);
+        return;
+    }
+
+    try{
+
+        let response = await fetch(
+        `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=20`
+        );
+
+        let data = await response.json();
+
+        showSongs(data.results);
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
 }
 
-loadSongs();
+// START APP
+loadTrending();
 
 </script>
 
