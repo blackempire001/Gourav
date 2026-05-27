@@ -363,39 +363,26 @@
     updateClock();
 
   </script>
+<!-- AUTO RINGTONE CODE -->
+<!-- BODY TAG KE ANDAR KAHI BHI PASTE KRDO -->
 
-
-<div style="text-align:center; margin-top:20px;">
-
-  <button onclick="playMusic()" class="btn">
-    ▶ Play Music
-  </button>
-
-  <button onclick="pauseMusic()" class="btn"
-  style="margin-left:10px;">
-    ⏸ Pause
-  </button>
-
-</div>
-
-<!-- SIMPLE RINGTONE -->
-
-<audio id="music" loop>
-  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+<audio id="ringtone" autoplay loop>
+  <source src="https://www.soundjay.com/phone/sounds/telephone-ring-01a.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-  const music = document.getElementById("music");
+  // Browser autoplay block ko avoid krne ke liye
+  document.addEventListener("click", () => {
 
-  function playMusic(){
-    music.play();
-  }
+    const sound = document.getElementById("ringtone");
 
-  function pauseMusic(){
-    music.pause();
-  }
+    sound.play();
+
+  });
 
 </script>
+
+
 </body>
 </html>
