@@ -364,5 +364,38 @@
 
   </script>
 
+
+<div style="text-align:center; margin-top:20px;">
+
+  <button onclick="playMusic()" class="btn">
+    ▶ Play Music
+  </button>
+
+  <button onclick="pauseMusic()" class="btn"
+  style="margin-left:10px;">
+    ⏸ Pause
+  </button>
+
+</div>
+
+<!-- SIMPLE RINGTONE -->
+
+<audio id="music" loop>
+  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+  const music = document.getElementById("music");
+
+  function playMusic(){
+    music.play();
+  }
+
+  function pauseMusic(){
+    music.pause();
+  }
+
+</script>
 </body>
 </html>
