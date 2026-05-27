@@ -1,103 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Empire Music</title>
+
+<title>Black Empire Music</title>
 
 <style>
 
 body{
-    margin:0;
-    background:#121212;
-    color:white;
-    font-family:Arial;
+margin:0;
+padding:0;
+background:black;
+font-family:Arial;
+color:white;
+text-align:center;
 }
 
 /* HEADER */
 
 header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px;
-    background:black;
-    position:sticky;
-    top:0;
+background:#111;
+padding:15px;
+border-bottom:2px solid red;
 }
 
 .logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
 }
 
 .logo img{
-    width:40px;
-    height:40px;
-    border-radius:50%;
+width:55px;
+height:55px;
+border-radius:50%;
+border:2px solid red;
 }
 
 .logo h2{
-    margin:0;
+font-size:30px;
+letter-spacing:2px;
 }
 
-/* SEARCH */
+/* SEARCH BOX */
 
 .search-box{
-    width:90%;
-    margin:15px auto;
-    display:block;
-    padding:12px;
-    border:none;
-    border-radius:12px;
-    font-size:16px;
-    outline:none;
+margin-top:40px;
 }
 
-/* SONG GRID */
-
-.song-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;
-    padding:12px;
+input{
+width:70%;
+padding:14px;
+border:none;
+border-radius:12px;
+font-size:18px;
+outline:none;
 }
 
-.card{
-    background:#1e1e1e;
-    border-radius:15px;
-    padding:10px;
-    text-align:center;
-    transition:0.3s;
+button{
+padding:14px 20px;
+border:none;
+border-radius:12px;
+background:red;
+color:white;
+font-size:18px;
+margin-top:15px;
+cursor:pointer;
 }
 
-.card:hover{
-    transform:scale(1.03);
+/* PLAYER */
+
+#player{
+margin-top:30px;
 }
 
-.card img{
-    width:100%;
-    border-radius:12px;
+iframe{
+width:90%;
+max-width:500px;
+height:300px;
+border-radius:20px;
+border:2px solid red;
+box-shadow:0 0 20px red;
 }
 
-.song-name{
-    margin-top:8px;
-    font-weight:bold;
-}
+/* FOOTER */
 
-.artist{
-    color:#aaa;
-    font-size:14px;
-}
-
-audio{
-    width:100%;
-    margin-top:8px;
-}
-
-.heading{
-    padding-left:12px;
+.footer{
+margin-top:50px;
+padding:20px;
+color:gray;
+font-size:14px;
 }
 
 </style>
@@ -106,135 +101,56 @@ audio{
 <body>
 
 <header>
-    
-    <div class="logo">
 
-        <img src="logo.png" style="width:45px;height:45px;border-radius:50%;">
+<div class="logo">
 
-        <h2> 🎶 Empire Music</h2>
+<img src="logo.png">
 
-    </div>
+<h2>🎶 BLACK EMPIRE musice </h2>
+
+</div>
 
 </header>
 
-<input 
-type="text" 
-class="search-box" 
-id="search"
-placeholder="Search any song..."
-oninput="searchSongs()"
->
+<div class="search-box">
 
-<h3 class="heading">🔥 Trending Songs</h3>
+<h1>Search Any Song 🎵</h1>
 
-<div class="song-grid" id="songList"></div>
+<input type="text" id="song" placeholder="Enter song name">
+
+<br>
+
+<button onclick="playSong()">PLAY SONG</button>
+
+</div>
+
+<div id="player"></div>
+
+<div class="footer">
+Welcome To Black Empire Music Website
+</div>
 
 <script>
 
-let trendingSongs = [];
+function playSong(){
 
-// LOAD TRENDING SONGS
-async function loadTrending(){
+let song = document.getElementById("song").value;
 
-    try{
+document.getElementById("player").innerHTML = `
 
-        let response = await fetch(
-        "https://itunes.apple.com/search?term=punjabi&entity=song&limit=20"
-        );
+<iframe
 
-        let data = await response.json();
+src="https://www.youtube.com/embed?listType=search&list=${song}"
 
-        trendingSongs = data.results;
+frameborder="0"
 
-        showSongs(trendingSongs);
+allowfullscreen>
 
-    }catch(error){
-        console.log(error);
-    }
+</iframe>
+
+`;
 
 }
-
-// SHOW SONGS
-function showSongs(songs){
-
-    let songList = document.getElementById("songList");
-
-    songList.innerHTML = "";
-
-    if(songs.length === 0){
-
-        songList.innerHTML = `
-        <h2 style="padding:20px;">
-        No songs found 😢
-        </h2>
-        `;
-
-        return;
-    }
-
-    songs.forEach(song => {
-
-        songList.innerHTML += `
-
-        <div class="card">
-
-            <img src="${song.artworkUrl100}" />
-
-            <div class="song-name">
-                ${song.trackName}
-            </div>
-
-            <div class="artist">
-                ${song.artistName}
-            </div>
-
-            <audio controls>
-                <source src="${song.previewUrl}">
-            </audio>
-
-        </div>
-
-        `;
-
-    });
-
-}
-
-// SEARCH SONGS FROM INTERNET
-async function searchSongs(){
-
-    let query = document
-    .getElementById("search")
-    .value
-    .trim();
-
-    // EMPTY SEARCH = TRENDING
-    if(query === ""){
-
-        showSongs(trendingSongs);
-        return;
-    }
-
-    try{
-
-        let response = await fetch(
-        `https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=20`
-        );
-
-        let data = await response.json();
-
-        showSongs(data.results);
-
-    }catch(error){
-
-        console.log(error);
-
-    }
-
-}
-
-// START APP
-loadTrending();
 
 </script>
 
