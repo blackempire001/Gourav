@@ -11,7 +11,7 @@
       margin:0;
       padding:0;
       box-sizing:border-box;
-      font-family:Arial, sans-serif;
+      font-family:Arial,sans-serif;
     }
 
     body{
@@ -83,6 +83,7 @@
       white-space:nowrap;
       overflow:hidden;
       width:0;
+
       animation:
       typing 5s steps(40,end) forwards,
       blink .7s infinite;
@@ -158,6 +159,7 @@
       border-radius:50%;
       position:relative;
       margin:50px auto;
+
       box-shadow:
       0 0 20px #00ffff,
       inset 0 0 20px #00ffff55;
@@ -216,6 +218,7 @@
     .num3{ top:145px; right:10px; }
     .num4{ bottom:70px; right:35px; }
     .num5{ bottom:25px; right:85px; }
+
     .num6{
       bottom:5px;
       left:50%;
@@ -246,6 +249,12 @@
 
 <body>
 
+  <!-- AUTO RINGTONE -->
+
+  <audio id="ringtone" loop>
+    <source src="https://www.soundjay.com/phone/sounds/telephone-ring-01a.mp3" type="audio/mpeg">
+  </audio>
+
   <header>
 
     <h1>WELCOME TO MY WEB</h1>
@@ -254,9 +263,9 @@
       This website is created by Gourav 💻
     </div>
 
-    <a href="#about" class="btn">
-      Explore
-    </a>
+    <button class="btn" onclick="startSite()">
+      Enter Website
+    </button>
 
   </header>
 
@@ -294,7 +303,7 @@
 
   </section>
 
-  <!-- ANALOG CLOCK SECTION -->
+  <!-- ANALOG CLOCK -->
 
   <section>
 
@@ -333,6 +342,8 @@
 
   <script>
 
+    // ANALOG CLOCK
+
     function updateClock(){
 
       const now = new Date();
@@ -362,27 +373,19 @@
 
     updateClock();
 
+    // RINGTONE START
+
+    function startSite(){
+
+      const sound =
+      document.getElementById("ringtone");
+
+      sound.play();
+
+      window.location.href="#about";
+    }
+
   </script>
-<!-- AUTO RINGTONE CODE -->
-<!-- BODY TAG KE ANDAR KAHI BHI PASTE KRDO -->
-
-<audio id="ringtone" autoplay loop>
-  <source src="https://www.soundjay.com/phone/sounds/telephone-ring-01a.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-
-  // Browser autoplay block ko avoid krne ke liye
-  document.addEventListener("click", () => {
-
-    const sound = document.getElementById("ringtone");
-
-    sound.play();
-
-  });
-
-</script>
-
 
 </body>
 </html>
