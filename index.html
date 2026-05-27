@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>My Ultra Music Site</title>
+<title>Online Music Player</title>
 
 <style>
 body{
@@ -12,73 +12,33 @@ body{
   color:white;
 }
 
-/* HEADER */
 .header{
   background:#1db954;
   padding:15px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  font-size:20px;
   font-weight:bold;
 }
 
-/* CLOCK */
-.clock{
-  width:65px;
-  height:65px;
-  border:3px solid white;
-  border-radius:50%;
-  position:relative;
-}
-.hand{
-  position:absolute;
-  left:50%;
-  bottom:50%;
-  transform-origin:bottom;
-  background:white;
-}
-.hour{width:4px;height:18px;}
-.min{width:3px;height:22px;}
-.sec{width:2px;height:26px;background:red;}
-
-/* SEARCH */
 .searchBox{
   padding:10px;
 }
+
 input{
   width:100%;
   padding:12px;
-  border:none;
   border-radius:20px;
+  border:none;
   outline:none;
 }
 
-/* SONG */
 .song{
   background:#181818;
   margin:10px;
   padding:12px;
-  border-radius:12px;
+  border-radius:10px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-}
-
-/* PLAYER */
-.player{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#181818;
-  padding:10px;
-}
-
-/* CONTROLS */
-.controls{
-  display:flex;
-  justify-content:center;
-  gap:10px;
-  margin-top:5px;
 }
 
 button{
@@ -89,8 +49,12 @@ button{
   cursor:pointer;
 }
 
-input[type=range]{
+.player{
+  position:fixed;
+  bottom:0;
   width:100%;
+  background:#181818;
+  padding:10px;
 }
 </style>
 
@@ -99,149 +63,69 @@ input[type=range]{
 <body>
 
 <div class="header">
-🎵 My Music Site
-
-<!-- CLOCK -->
-<div class="clock">
-<div class="hand hour" id="h"></div>
-<div class="hand min" id="m"></div>
-<div class="hand sec" id="s"></div>
-</div>
+🎧 Online Music Search Player
 </div>
 
-<!-- SEARCH -->
 <div class="searchBox">
-<input id="search" onkeyup="searchSong()" placeholder="Search songs 🔍">
+<input id="search" onkeyup="filterSongs()" placeholder="Search songs... 🔍">
 </div>
 
-<!-- SONG LIST -->
 <div id="list"></div>
 
-<!-- PLAYER -->
 <div class="player">
-
-<div id="current">No song playing</div>
-
-<input type="range" id="progress" value="0" onchange="seekSong()">
-
-<audio id="audio"></audio>
-
-<div class="controls">
-<button onclick="prevSong()">⏮</button>
-<button onclick="togglePlay()">▶️</button>
-<button onclick="nextSong()">⏭</button>
-<button onclick="shuffleSong()">🔀</button>
-
-<input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
-</div>
-
+<audio id="audio" controls style="width:100%"></audio>
 </div>
 
 <script>
 
-/* SONG LIST */
+/* 🌐 ONLINE SONGS (WORKING LINKS) */
 const songs = [
-{name:"Cheema Y - Money 2X", file:"money2x.mp3"},
-{name:"Cheema Y - Shady", file:"shady.mp3"},
-{name:"Cheema Y - CEO", file:"ceo.mp3"},
-{name:"AP Dhillon - Excuses", file:"excuses.mp3"},
-{name:"Arjan Dhillon - Lifestyle", file:"lifestyle.mp3"}
+{
+name:"Acoustic Guitar",
+file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+},
+{
+name:"Relax Beat",
+file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+},
+{
+name:"Soft Music",
+file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+},
+{
+name:"Deep Focus",
+file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
+},
+{
+name:"Party Beat",
+file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
+}
 ];
 
-let current = 0;
-let isPlaying = false;
-
-let audio = document.getElementById("audio");
-
-/* SHOW SONGS */
-function render(list){
+function show(list){
 let html="";
-list.forEach((s,i)=>{
+list.forEach(s=>{
 html+=`
 <div class="song">
 <span>${s.name}</span>
-<button onclick="playSong(${i})">Play</button>
+<button onclick="play('${s.file}')">Play</button>
 </div>`;
 });
 document.getElementById("list").innerHTML=html;
 }
 
-/* PLAY */
-function playSong(i){
-current=i;
-audio.src=songs[i].file;
-audio.play();
-isPlaying=true;
-document.getElementById("current").innerText="Now Playing: "+songs[i].name;
-render(songs);
+function play(file){
+document.getElementById("audio").src=file;
+document.getElementById("audio").play();
 }
 
-/* PLAY PAUSE */
-function togglePlay(){
-if(isPlaying){
-audio.pause();
-isPlaying=false;
-}else{
-audio.play();
-isPlaying=true;
-}
-}
-
-/* NEXT PREV */
-function nextSong(){
-current=(current+1)%songs.length;
-playSong(current);
-}
-
-function prevSong(){
-current=(current-1+songs.length)%songs.length;
-playSong(current);
-}
-
-/* SHUFFLE */
-function shuffleSong(){
-let r=Math.floor(Math.random()*songs.length);
-playSong(r);
-}
-
-/* END AUTO NEXT */
-audio.addEventListener("ended",nextSong);
-
-/* PROGRESS BAR */
-audio.addEventListener("timeupdate",()=>{
-document.getElementById("progress").value=
-(audio.currentTime/audio.duration)*100;
-});
-
-function seekSong(){
-audio.currentTime=
-(document.getElementById("progress").value/100)*audio.duration;
-}
-
-/* VOLUME */
-function setVolume(v){
-audio.volume=v;
-}
-
-/* SEARCH */
-function searchSong(){
+function filterSongs(){
 let val=document.getElementById("search").value.toLowerCase();
 let f=songs.filter(s=>s.name.toLowerCase().includes(val));
-render(f);
+show(f);
 }
 
-/* CLOCK */
-function clock(){
-let d=new Date();
-document.getElementById("h").style.transform=`rotate(${d.getHours()*30}deg)`;
-document.getElementById("m").style.transform=`rotate(${d.getMinutes()*6}deg)`;
-document.getElementById("s").style.transform=`rotate(${d.getSeconds()*6}deg)`;
-}
-setInterval(clock,1000);
-clock();
-
-/* INIT */
-render(songs);
+show(songs);
 
 </script>
 
