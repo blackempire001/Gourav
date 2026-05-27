@@ -1,402 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gourav's Premium Web</title>
+<meta charset="UTF-8">
+<title>My Ultra Music Site</title>
 
-  <style>
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#121212;
+  color:white;
+}
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:Arial,sans-serif;
-      scroll-behavior:smooth;
-    }
+/* HEADER */
+.header{
+  background:#1db954;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:bold;
+}
 
-    body{
-      background:#0f0f0f;
-      color:white;
-      overflow-x:hidden;
-    }
+/* CLOCK */
+.clock{
+  width:65px;
+  height:65px;
+  border:3px solid white;
+  border-radius:50%;
+  position:relative;
+}
+.hand{
+  position:absolute;
+  left:50%;
+  bottom:50%;
+  transform-origin:bottom;
+  background:white;
+}
+.hour{width:4px;height:18px;}
+.min{width:3px;height:22px;}
+.sec{width:2px;height:26px;background:red;}
 
-    /* Animated Background */
+/* SEARCH */
+.searchBox{
+  padding:10px;
+}
+input{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:20px;
+  outline:none;
+}
 
-    body::before{
-      content:"";
-      position:fixed;
-      width:200%;
-      height:200%;
-      background:
-      radial-gradient(circle,#ffffff15 1px,transparent 1px);
+/* SONG */
+.song{
+  background:#181818;
+  margin:10px;
+  padding:12px;
+  border-radius:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-      background-size:40px 40px;
-      animation:moveBg 20s linear infinite;
-      z-index:-1;
-    }
+/* PLAYER */
+.player{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:#181818;
+  padding:10px;
+}
 
-    @keyframes moveBg{
+/* CONTROLS */
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:5px;
+}
 
-      0%{
-        transform:translate(0,0);
-      }
+button{
+  background:#1db954;
+  border:none;
+  padding:8px 12px;
+  border-radius:20px;
+  cursor:pointer;
+}
 
-      100%{
-        transform:translate(-100px,-100px);
-      }
-    }
+input[type=range]{
+  width:100%;
+}
+</style>
 
-    header{
-      height:100vh;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      flex-direction:column;
-      text-align:center;
-      padding:20px;
-    }
-
-    h1{
-      font-size:60px;
-      letter-spacing:4px;
-      text-transform:uppercase;
-      animation:glow 2s infinite alternate;
-    }
-
-    @keyframes glow{
-
-      from{
-        text-shadow:0 0 10px #00ffff;
-      }
-
-      to{
-        text-shadow:
-        0 0 25px #00ffff,
-        0 0 40px #00ffff;
-      }
-    }
-
-    .typing{
-      margin-top:15px;
-      font-size:20px;
-      color:#bdbdbd;
-      border-right:2px solid white;
-      white-space:nowrap;
-      overflow:hidden;
-      width:0;
-
-      animation:
-      typing 5s steps(40,end) forwards,
-      blink .7s infinite;
-    }
-
-    @keyframes typing{
-      to{
-        width:100%;
-      }
-    }
-
-    @keyframes blink{
-      50%{
-        border-color:transparent;
-      }
-    }
-
-    .btn{
-      margin-top:35px;
-      padding:15px 40px;
-      border:none;
-      border-radius:40px;
-      background:#00ffff;
-      color:black;
-      font-size:18px;
-      font-weight:bold;
-      cursor:pointer;
-      transition:0.4s;
-    }
-
-    .btn:hover{
-      transform:scale(1.1);
-      box-shadow:0 0 20px #00ffff;
-    }
-
-    section{
-      padding:100px 10%;
-    }
-
-    .cards{
-      display:grid;
-      grid-template-columns:
-      repeat(auto-fit,minmax(250px,1fr));
-
-      gap:25px;
-      margin-top:40px;
-    }
-
-    .card{
-      background:#1b1b1b;
-      padding:30px;
-      border-radius:20px;
-      border:1px solid #2b2b2b;
-      transition:0.4s;
-    }
-
-    .card:hover{
-      transform:translateY(-10px);
-      box-shadow:0 0 20px #00ffff55;
-    }
-
-    .card h2{
-      color:#00ffff;
-      margin-bottom:10px;
-    }
-
-    /* ANALOG CLOCK */
-
-    .clock{
-      width:320px;
-      height:320px;
-      border:8px solid #00ffff;
-      border-radius:50%;
-      position:relative;
-      margin:60px auto;
-
-      background:#111;
-
-      box-shadow:
-      0 0 20px #00ffff,
-      inset 0 0 20px #00ffff55;
-    }
-
-    .center{
-      width:15px;
-      height:15px;
-      background:#00ffff;
-      border-radius:50%;
-      position:absolute;
-      top:50%;
-      left:50%;
-      transform:translate(-50%,-50%);
-      z-index:100;
-    }
-
-    .hand{
-      position:absolute;
-      bottom:50%;
-      left:50%;
-      transform-origin:bottom;
-      transform:translateX(-50%);
-      border-radius:10px;
-    }
-
-    .hour{
-      width:8px;
-      height:80px;
-      background:white;
-    }
-
-    .minute{
-      width:5px;
-      height:110px;
-      background:#00ffff;
-    }
-
-    .second{
-      width:2px;
-      height:130px;
-      background:red;
-    }
-
-    .number{
-      position:absolute;
-      color:white;
-      font-size:22px;
-      font-weight:bold;
-    }
-
-    .num1{ top:25px; right:85px; }
-    .num2{ top:70px; right:35px; }
-    .num3{ top:145px; right:10px; }
-    .num4{ bottom:70px; right:35px; }
-    .num5{ bottom:25px; right:85px; }
-
-    .num6{
-      bottom:5px;
-      left:50%;
-      transform:translateX(-50%);
-    }
-
-    .num7{ bottom:25px; left:85px; }
-    .num8{ bottom:70px; left:35px; }
-    .num9{ top:145px; left:10px; }
-    .num10{ top:70px; left:25px; }
-    .num11{ top:25px; left:75px; }
-
-    .num12{
-      top:5px;
-      left:50%;
-      transform:translateX(-50%);
-    }
-
-    footer{
-      text-align:center;
-      padding:30px;
-      color:#999;
-      border-top:1px solid #222;
-    }
-
-  </style>
 </head>
 
 <body>
 
-  <!-- RINGTONE -->
+<div class="header">
+🎵 My Music Site
 
-  <audio id="ringtone" loop preload="auto">
-    <source src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3" type="audio/mpeg">
-  </audio>
+<!-- CLOCK -->
+<div class="clock">
+<div class="hand hour" id="h"></div>
+<div class="hand min" id="m"></div>
+<div class="hand sec" id="s"></div>
+</div>
+</div>
 
-  <!-- HOME -->
+<!-- SEARCH -->
+<div class="searchBox">
+<input id="search" onkeyup="searchSong()" placeholder="Search songs 🔍">
+</div>
 
-  <header>
+<!-- SONG LIST -->
+<div id="list"></div>
 
-    <h1>WELCOME TO MY WEB</h1>
+<!-- PLAYER -->
+<div class="player">
 
-    <div class="typing">
-      This website is created by Gourav 💻
-    </div>
+<div id="current">No song playing</div>
 
-    <button class="btn" onclick="startWebsite()">
-      ENTER WEBSITE
-    </button>
+<input type="range" id="progress" value="0" onchange="seekSong()">
 
-  </header>
+<audio id="audio"></audio>
 
-  <!-- ABOUT -->
+<div class="controls">
+<button onclick="prevSong()">⏮</button>
+<button onclick="togglePlay()">▶️</button>
+<button onclick="nextSong()">⏭</button>
+<button onclick="shuffleSong()">🔀</button>
 
-  <section id="about">
+<input type="range" min="0" max="1" step="0.1" onchange="setVolume(this.value)">
+</div>
 
-    <h1>About This Site</h1>
+</div>
 
-    <div class="cards">
+<script>
 
-      <div class="card">
-        <h2>Modern Design</h2>
+/* SONG LIST */
+const songs = [
+{name:"Cheema Y - Money 2X", file:"money2x.mp3"},
+{name:"Cheema Y - Shady", file:"shady.mp3"},
+{name:"Cheema Y - CEO", file:"ceo.mp3"},
+{name:"AP Dhillon - Excuses", file:"excuses.mp3"},
+{name:"Arjan Dhillon - Lifestyle", file:"lifestyle.mp3"}
+];
 
-        <p>
-          Clean futuristic interface with smooth animations.
-        </p>
-      </div>
+let current = 0;
+let isPlaying = false;
 
-      <div class="card">
-        <h2>Fast & Responsive</h2>
+let audio = document.getElementById("audio");
 
-        <p>
-          Works smoothly on mobile and desktop devices.
-        </p>
-      </div>
+/* SHOW SONGS */
+function render(list){
+let html="";
+list.forEach((s,i)=>{
+html+=`
+<div class="song">
+<span>${s.name}</span>
+<button onclick="playSong(${i})">Play</button>
+</div>`;
+});
+document.getElementById("list").innerHTML=html;
+}
 
-      <div class="card">
-        <h2>Personal Touch</h2>
+/* PLAY */
+function playSong(i){
+current=i;
+audio.src=songs[i].file;
+audio.play();
+isPlaying=true;
+document.getElementById("current").innerText="Now Playing: "+songs[i].name;
+render(songs);
+}
 
-        <p>
-          Thank you for visiting my website my sweet heart ❤️
-        </p>
-      </div>
+/* PLAY PAUSE */
+function togglePlay(){
+if(isPlaying){
+audio.pause();
+isPlaying=false;
+}else{
+audio.play();
+isPlaying=true;
+}
+}
 
-    </div>
+/* NEXT PREV */
+function nextSong(){
+current=(current+1)%songs.length;
+playSong(current);
+}
 
-  </section>
+function prevSong(){
+current=(current-1+songs.length)%songs.length;
+playSong(current);
+}
 
-  <!-- CLOCK -->
+/* SHUFFLE */
+function shuffleSong(){
+let r=Math.floor(Math.random()*songs.length);
+playSong(r);
+}
 
-  <section>
+/* END AUTO NEXT */
+audio.addEventListener("ended",nextSong);
 
-    <h1 style="text-align:center;">
-      Analog Clock
-    </h1>
+/* PROGRESS BAR */
+audio.addEventListener("timeupdate",()=>{
+document.getElementById("progress").value=
+(audio.currentTime/audio.duration)*100;
+});
 
-    <div class="clock">
+function seekSong(){
+audio.currentTime=
+(document.getElementById("progress").value/100)*audio.duration;
+}
 
-      <div class="center"></div>
+/* VOLUME */
+function setVolume(v){
+audio.volume=v;
+}
 
-      <div class="hand hour" id="hour"></div>
-      <div class="hand minute" id="minute"></div>
-      <div class="hand second" id="second"></div>
+/* SEARCH */
+function searchSong(){
+let val=document.getElementById("search").value.toLowerCase();
+let f=songs.filter(s=>s.name.toLowerCase().includes(val));
+render(f);
+}
 
-      <div class="number num1">1</div>
-      <div class="number num2">2</div>
-      <div class="number num3">3</div>
-      <div class="number num4">4</div>
-      <div class="number num5">5</div>
-      <div class="number num6">6</div>
-      <div class="number num7">7</div>
-      <div class="number num8">8</div>
-      <div class="number num9">9</div>
-      <div class="number num10">10</div>
-      <div class="number num11">11</div>
-      <div class="number num12">12</div>
+/* CLOCK */
+function clock(){
+let d=new Date();
+document.getElementById("h").style.transform=`rotate(${d.getHours()*30}deg)`;
+document.getElementById("m").style.transform=`rotate(${d.getMinutes()*6}deg)`;
+document.getElementById("s").style.transform=`rotate(${d.getSeconds()*6}deg)`;
+}
+setInterval(clock,1000);
+clock();
 
-    </div>
+/* INIT */
+render(songs);
 
-  </section>
-
-  <footer>
-    © 2026 Gourav's Web | Work In Progress 🚀
-  </footer>
-
-  <script>
-
-    // ENTER WEBSITE + PLAY RINGTONE
-
-    function startWebsite(){
-
-      const sound =
-      document.getElementById("ringtone");
-
-      sound.volume = 1;
-
-      sound.play();
-
-      document.getElementById("about")
-      .scrollIntoView({
-        behavior:"smooth"
-      });
-    }
-
-    // ANALOG CLOCK
-
-    function updateClock(){
-
-      const now = new Date();
-
-      const hr = now.getHours();
-      const min = now.getMinutes();
-      const sec = now.getSeconds();
-
-      const hourDeg =
-      (hr * 30) + (min * 0.5);
-
-      const minDeg = min * 6;
-
-      const secDeg = sec * 6;
-
-      document.getElementById("hour").style.transform =
-      `translateX(-50%) rotate(${hourDeg}deg)`;
-
-      document.getElementById("minute").style.transform =
-      `translateX(-50%) rotate(${minDeg}deg)`;
-
-      document.getElementById("second").style.transform =
-      `translateX(-50%) rotate(${secDeg}deg)`;
-    }
-
-    setInterval(updateClock,1000);
-
-    updateClock();
-
-  </script>
+</script>
 
 </body>
 </html>
