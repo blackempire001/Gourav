@@ -1,72 +1,51 @@
-<!-- SPOTIFY STYLE WORLD MUSIC APP (WEB) --><!-- Features:
-- Worldwide song search (iTunes API)
-- Album cover
-- Preview play
-- Sticky music player (Spotify style)
-- Play/Pause control
---><!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> GouRav Music App</title><style>
+<title>My Music Site</title>
+
+<style>
 body{
-    margin:0;
-    font-family:Arial;
     background:#121212;
     color:white;
+    font-family:Arial;
+    margin:0;
 }
 
+/* HEADER */
 header{
-    padding:15px;
-    text-align:center;
-    background:#1db954;
-    font-size:20px;
-    font-weight:bold;
-}
-
-.search-box{
     display:flex;
-    justify-content:center;
-    margin:15px;
-}
-
-input{
-    width:70%;
-    padding:10px;
-    border:none;
-    border-radius:20px;
-    outline:none;
-}
-
-button{
-    margin-left:10px;
+    align-items:center;
+    justify-content:space-between;
     padding:10px 15px;
-    border:none;
-    border-radius:20px;
-    background:#1db954;
-    color:white;
-    cursor:pointer;
+    background:#000;
 }
 
-.container{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    padding-bottom:120px;
+header img{
+    height:40px;
+}
+
+/* SEARCH */
+.search-box{
+    width:90%;
+    padding:10px;
+    margin:10px;
+    border-radius:10px;
+    border:none;
+}
+
+/* SONG GRID */
+.song-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    padding:10px;
 }
 
 .card{
-    background:#181818;
-    margin:10px;
+    background:#1e1e1e;
     padding:10px;
-    width:180px;
-    border-radius:15px;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.card:hover{
-    transform:scale(1.05);
+    border-radius:10px;
+    text-align:center;
 }
 
 .card img{
@@ -74,100 +53,71 @@ button{
     border-radius:10px;
 }
 
-.player{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#181818;
-    display:flex;
-    align-items:center;
-    padding:10px;
-    gap:10px;
+h3{
+    padding-left:10px;
 }
+</style>
 
-.player img{
-    width:50px;
-    height:50px;
-    border-radius:10px;
-}
+</head>
 
-.controls button{
-    background:#1db954;
-    border:none;
-    padding:8px 12px;
-    border-radius:10px;
-    cursor:pointer;
-}
+<body>
 
-.info{
-    flex:1;
-}
-</style></head>
-<body><header>🎵 GouRav Music App</header><div class="search-box">
-    <input type="text" id="search" placeholder="Search any song worldwide...">
-    <button onclick="searchMusic()">Search</button>
-</div><div class="container" id="results"></div><!-- PLAYER --><div class="player">
-    <img id="pimg" src="" />
-    <div class="info">
-        <div id="ptitle">No song selected</div>
-        <div id="partist"></div>
-    </div>
-    <div class="controls">
-        <button onclick="togglePlay()">▶ / ⏸</button>
-    </div>
-    <audio id="audio"></audio>
-</div><script>
-let currentAudio = null;
+<!-- HEADER -->
+<header>
+    <h2>🎵 My Music</h2>
+    <img src="YOUR_LOGO_URL_HERE" alt="logo">
+</header>
 
-async function searchMusic(){
-    let query = document.getElementById("search").value;
-    let url = `https://itunes.apple.com/search?term=${query}&limit=25`;
+<!-- SEARCH -->
+<input class="search-box" id="search" placeholder="Search songs..." onkeyup="searchSongs()">
 
-    let res = await fetch(url);
+<h3>🔥 Trending Songs</h3>
+<div class="song-grid" id="songList"></div>
+
+<script>
+
+let allSongs = [];
+
+// 🔥 Load songs automatically (Spotify style home)
+async function loadSongs(){
+    let res = await fetch("https://itunes.apple.com/search?term=india&entity=song&limit=25");
     let data = await res.json();
 
-    let container = document.getElementById("results");
-    container.innerHTML = "";
+    allSongs = data.results;
+    showSongs(allSongs);
+}
 
-    data.results.forEach(song => {
-        if(!song.previewUrl) return;
+// 🎵 Show songs
+function showSongs(songs){
+    let box = document.getElementById("songList");
+    box.innerHTML = "";
 
-        let card = document.createElement("div");
-        card.className = "card";
-
-        card.innerHTML = `
-            <img src="${song.artworkUrl100.replace('100x100','300x300')}" />
-            <h4>${song.trackName}</h4>
-            <p>${song.artistName}</p>
+    songs.forEach(song=>{
+        box.innerHTML += `
+        <div class="card">
+            <img src="${song.artworkUrl100}">
+            <p>${song.trackName}</p>
+            <small>${song.artistName}</small>
+            <audio controls src="${song.previewUrl}"></audio>
+        </div>
         `;
-
-        card.onclick = () => playSong(song);
-        container.appendChild(card);
     });
 }
 
-function playSong(song){
-    let audio = document.getElementById("audio");
+// 🔍 Search songs
+function searchSongs(){
+    let val = document.getElementById("search").value.toLowerCase();
 
-    document.getElementById("pimg").src = song.artworkUrl100.replace('100x100','300x300');
-    document.getElementById("ptitle").innerText = song.trackName;
-    document.getElementById("partist").innerText = song.artistName;
+    let filtered = allSongs.filter(song =>
+        song.trackName.toLowerCase().includes(val)
+    );
 
-    audio.src = song.previewUrl;
-    audio.play();
-
-    currentAudio = audio;
+    showSongs(filtered);
 }
 
-function togglePlay(){
-    if(!currentAudio) return;
+loadSongs();
 
-    if(currentAudio.paused){
-        currentAudio.play();
-    } else {
-        currentAudio.pause();
-    }
-}
-</script></body>
+</script>
+
+</body>
 </html>
