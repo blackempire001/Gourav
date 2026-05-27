@@ -64,7 +64,7 @@ h3{
 
 <!-- HEADER -->
 <header>
-    <h2>🎵 My Music</h2>
+    <h2>🎵 black empire Music</h2>
     <img src="YOUR_LOGO_URL_HERE" alt="logo">
 </header>
 
@@ -108,9 +108,23 @@ function showSongs(songs){
 function searchSongs(){
     let val = document.getElementById("search").value.toLowerCase();
 
-    let filtered = allSongs.filter(song =>
-        song.trackName.toLowerCase().includes(val)
-    );
+    // 🔍 REAL SEARCH FROM INTERNET
+async function searchSongs(){
+
+    let val = document.getElementById("search").value;
+
+    // agar empty ho to trending songs dikhao
+    if(val.trim() === ""){
+        showSongs(allSongs);
+        return;
+    }
+
+    let res = await fetch(`https://itunes.apple.com/search?term=${val}&entity=song&limit=20`);
+
+    let data = await res.json();
+
+    showSongs(data.results);
+}
 
     showSongs(filtered);
 }
