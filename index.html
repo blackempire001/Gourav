@@ -1,133 +1,173 @@
-<!DOCTYPE html>
-<html>
+<!-- SPOTIFY STYLE WORLD MUSIC APP (WEB) --><!-- Features:
+- Worldwide song search (iTunes API)
+- Album cover
+- Preview play
+- Sticky music player (Spotify style)
+- Play/Pause control
+--><!DOCTYPE html><html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Online Music Player</title>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotify Style Music App</title><style>
 body{
-  margin:0;
-  font-family:Arial;
-  background:#121212;
-  color:white;
+    margin:0;
+    font-family:Arial;
+    background:#121212;
+    color:white;
 }
 
-.header{
-  background:#1db954;
-  padding:15px;
-  font-size:20px;
-  font-weight:bold;
+header{
+    padding:15px;
+    text-align:center;
+    background:#1db954;
+    font-size:20px;
+    font-weight:bold;
 }
 
-.searchBox{
-  padding:10px;
+.search-box{
+    display:flex;
+    justify-content:center;
+    margin:15px;
 }
 
 input{
-  width:100%;
-  padding:12px;
-  border-radius:20px;
-  border:none;
-  outline:none;
-}
-
-.song{
-  background:#181818;
-  margin:10px;
-  padding:12px;
-  border-radius:10px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+    width:70%;
+    padding:10px;
+    border:none;
+    border-radius:20px;
+    outline:none;
 }
 
 button{
-  background:#1db954;
-  border:none;
-  padding:8px 12px;
-  border-radius:20px;
-  cursor:pointer;
+    margin-left:10px;
+    padding:10px 15px;
+    border:none;
+    border-radius:20px;
+    background:#1db954;
+    color:white;
+    cursor:pointer;
+}
+
+.container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    padding-bottom:120px;
+}
+
+.card{
+    background:#181818;
+    margin:10px;
+    padding:10px;
+    width:180px;
+    border-radius:15px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+.card img{
+    width:100%;
+    border-radius:10px;
 }
 
 .player{
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#181818;
-  padding:10px;
-}
-</style>
-
-</head>
-
-<body>
-
-<div class="header">
-🎧 Online Music Search Player
-</div>
-
-<div class="searchBox">
-<input id="search" onkeyup="filterSongs()" placeholder="Search songs... 🔍">
-</div>
-
-<div id="list"></div>
-
-<div class="player">
-<audio id="audio" controls style="width:100%"></audio>
-</div>
-
-<script>
-
-/* 🌐 ONLINE SONGS (WORKING LINKS) */
-const songs = [
-{
-name:"Acoustic Guitar",
-file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-},
-{
-name:"Relax Beat",
-file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
-},
-{
-name:"Soft Music",
-file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
-},
-{
-name:"Deep Focus",
-file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"
-},
-{
-name:"Party Beat",
-file:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3"
-}
-];
-
-function show(list){
-let html="";
-list.forEach(s=>{
-html+=`
-<div class="song">
-<span>${s.name}</span>
-<button onclick="play('${s.file}')">Play</button>
-</div>`;
-});
-document.getElementById("list").innerHTML=html;
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#181818;
+    display:flex;
+    align-items:center;
+    padding:10px;
+    gap:10px;
 }
 
-function play(file){
-document.getElementById("audio").src=file;
-document.getElementById("audio").play();
+.player img{
+    width:50px;
+    height:50px;
+    border-radius:10px;
 }
 
-function filterSongs(){
-let val=document.getElementById("search").value.toLowerCase();
-let f=songs.filter(s=>s.name.toLowerCase().includes(val));
-show(f);
+.controls button{
+    background:#1db954;
+    border:none;
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
 }
 
-show(songs);
+.info{
+    flex:1;
+}
+</style></head>
+<body><header>🎵 Spotify Style Music App</header><div class="search-box">
+    <input type="text" id="search" placeholder="Search any song worldwide...">
+    <button onclick="searchMusic()">Search</button>
+</div><div class="container" id="results"></div><!-- PLAYER --><div class="player">
+    <img id="pimg" src="" />
+    <div class="info">
+        <div id="ptitle">No song selected</div>
+        <div id="partist"></div>
+    </div>
+    <div class="controls">
+        <button onclick="togglePlay()">▶ / ⏸</button>
+    </div>
+    <audio id="audio"></audio>
+</div><script>
+let currentAudio = null;
 
-</script>
+async function searchMusic(){
+    let query = document.getElementById("search").value;
+    let url = `https://itunes.apple.com/search?term=${query}&limit=25`;
 
-</body>
+    let res = await fetch(url);
+    let data = await res.json();
+
+    let container = document.getElementById("results");
+    container.innerHTML = "";
+
+    data.results.forEach(song => {
+        if(!song.previewUrl) return;
+
+        let card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <img src="${song.artworkUrl100.replace('100x100','300x300')}" />
+            <h4>${song.trackName}</h4>
+            <p>${song.artistName}</p>
+        `;
+
+        card.onclick = () => playSong(song);
+        container.appendChild(card);
+    });
+}
+
+function playSong(song){
+    let audio = document.getElementById("audio");
+
+    document.getElementById("pimg").src = song.artworkUrl100.replace('100x100','300x300');
+    document.getElementById("ptitle").innerText = song.trackName;
+    document.getElementById("partist").innerText = song.artistName;
+
+    audio.src = song.previewUrl;
+    audio.play();
+
+    currentAudio = audio;
+}
+
+function togglePlay(){
+    if(!currentAudio) return;
+
+    if(currentAudio.paused){
+        currentAudio.play();
+    } else {
+        currentAudio.pause();
+    }
+}
+</script></body>
 </html>
